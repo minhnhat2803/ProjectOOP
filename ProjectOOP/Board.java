@@ -105,7 +105,51 @@ public class Board extends JPanel implements ActionListener{
         ImageIcon background = new ImageIcon(BackgroundPath);
         g.drawImage(background.getImage(),0,0,this.getWidth(),this.getHeight(),null);
     }
-
+//Immediately drop pieces to the bottom of the game panel
+    private void dropDown(){
+        int newY = curY;
+        while (newY > 0) {
+            if (!tryMove(curPiece, curX, newY - 1))
+                break;
+            --newY;
+        }
+        pieceDropped();
+    }
+    //Move pieces down by 1 line
+    private void oneLineDown(){
+        if (!tryMove(curPiece, curX, curY - 1))
+            pieceDropped();
+    }
+    //Initiate board
+    private void clearBoard()
+    {
+        for (int i = 0; i < BoardHeight * BoardWidth; ++i)
+            board[i] = Tetrominoes.NoShape;
+    }
+    //Processing pieces dropped
+    private void pieceDropped()
+    {
+        for (int i = 0; i < 4; ++i) {
+            int x = curX + curPiece.x(i);
+            int y = curY - curPiece.y(i);
+            board[(y * BoardWidth) + x] = curPiece.getShape();
+        }
+        removeFullLines();
+        if (!FallingFinished)
+            newPiece(); 
+    }
+    //Create new pieces
+    private void newPiece(){
+        curPiece.setRandomShape();
+        curX = BoardWidth / 2 + 1;
+        curY = BoardHeight - 1 + curPiece.minY();
+        if (!tryMove(curPiece, curX, curY)) {
+            curPiece.setShape(Tetrominoes.NoShape);
+            timer.stop();
+            Start = false;
+            GameOver();
+        }
+    }
     //Display Game Over screen
     public void GameOver(){
         //GameOver screen formatting and display

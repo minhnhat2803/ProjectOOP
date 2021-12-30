@@ -6,13 +6,18 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.io.File;
-public class Board{
+public class Board extends JPanel implements ActionListener{
     private static final long serialVersionUID = 1L;
+    //Declare background image location
+    private String BackgroundFolder = "Background" + File.separator;
+    private String BackgroundPath = BackgroundFolder + "Background 1.png";
     final int BoardWidth = 10;
     final int BoardHeight = 22;
     Timer timer;
+    boolean FallingFinished = false;
     boolean Start = false;
     boolean Pause = false;
+    int numLinesRemoved = 0;
     JLabel statusbar;
     
     public Board(Tetris parent) {

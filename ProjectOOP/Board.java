@@ -152,6 +152,7 @@ public class Board extends JPanel implements ActionListener{
     }
     //Display Game Over screen
     public void GameOver(){
+        Tetris.PlayGameOver();
         //GameOver screen formatting and display
         statusbar.setForeground(Color.RED);
         statusbar.setFont(new Font("Calibri", Font.BOLD, 50));
@@ -159,6 +160,15 @@ public class Board extends JPanel implements ActionListener{
         add(statusbar, BorderLayout.CENTER);
         int confirmed = JOptionPane.showConfirmDialog(null, "Thank you for playing!\n" + "Score: " 
         + String.valueOf(numLinesRemoved*100) + "\nWould you like to play again?" ,"Tetris", JOptionPane.YES_NO_OPTION);
+        //Yes-No options processing
+        if(confirmed == JOptionPane.YES_OPTION){
+            //Re-establish the game
+            Tetris game = new Tetris();
+            game.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            game.setLocationRelativeTo(null);
+            game.setVisible(true);
+        }
+        else if(confirmed == JOptionPane.NO_OPTION){System.exit(1);}
     }
 
 
@@ -194,11 +204,9 @@ public class Board extends JPanel implements ActionListener{
                 for (int k = i; k < BoardHeight - 1; ++k) {
                     for (int j = 0; j < BoardWidth; ++j)
                          board[(k * BoardWidth) + j] = shapeAt(j, k + 1);
-                }
-                
+                }   
             }
         }
-
         if (numFullLines > 0) {
             numLinesRemoved += numFullLines;
             statusbar.setText("Score: "+ String.valueOf(numLinesRemoved*100));
@@ -228,7 +236,7 @@ public class Board extends JPanel implements ActionListener{
         g.drawLine(x + squareWidth() - 1, y + squareHeight() - 1,
                          x + squareWidth() - 1, y + 1);
     }
-//Controller
+    //Controller
     class TAdapter extends KeyAdapter {
          public void keyPressed(KeyEvent e){ 
              if (!Start || curPiece.getShape() == Tetrominoes.NoShape) {  
@@ -267,5 +275,4 @@ public class Board extends JPanel implements ActionListener{
 
          }
      }
-
 }

@@ -19,6 +19,8 @@ public class Board extends JPanel implements ActionListener{
     boolean Start = false;
     boolean Pause = false;
     int numLinesRemoved = 0;
+    int curX = 0;
+    int curY = 0;
     JLabel statusbar;
     Shape curPiece;
     Tetrominoes[] board;
@@ -92,7 +94,7 @@ public class Board extends JPanel implements ActionListener{
         + String.valueOf(numLinesRemoved*100) + "\nWould you like to play again?" ,"Tetris", JOptionPane.YES_NO_OPTION);
     }
 
-}
+
 //Pieces' movement
     private boolean tryMove(Shape newPiece, int newX, int newY){
         for (int i = 0; i < 4; ++i) {

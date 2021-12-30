@@ -6,6 +6,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.io.File;
+import ProjectOOP.Shape.Tetrominoes;
 public class Board extends JPanel implements ActionListener{
     private static final long serialVersionUID = 1L;
     //Declare background image location
@@ -19,13 +20,15 @@ public class Board extends JPanel implements ActionListener{
     boolean Pause = false;
     int numLinesRemoved = 0;
     JLabel statusbar;
-    
+    Shape curPiece;
+    Tetrominoes[] board;
     public Board(Tetris parent) {
         setFocusable(true);
         curPiece = new Shape();
         timer = new Timer(400, this);
         timer.start(); 
         statusbar =  parent.getStatusBar();
+        board = new Tetrominoes[BoardWidth * BoardHeight];
         addKeyListener(new TAdapter());
         clearBoard();  
     }

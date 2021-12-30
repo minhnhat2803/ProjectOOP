@@ -184,3 +184,44 @@ public class Board extends JPanel implements ActionListener{
         g.drawLine(x + squareWidth() - 1, y + squareHeight() - 1,
                          x + squareWidth() - 1, y + 1);
     }
+//Controller
+    class TAdapter extends KeyAdapter {
+         public void keyPressed(KeyEvent e){ 
+             if (!Start || curPiece.getShape() == Tetrominoes.NoShape) {  
+                 return;
+             }
+             int key = e.getKeyCode();
+             if (key == 'p' || key == 'P') {
+                 pause();
+                 return;
+             }
+             if (Pause)
+                 return;
+             switch (key) {
+             case KeyEvent.VK_LEFT:
+                 tryMove(curPiece, curX - 1, curY);
+                 break;
+             case KeyEvent.VK_RIGHT:
+                 tryMove(curPiece, curX + 1, curY);
+                 break;
+             case KeyEvent.VK_DOWN:
+                 tryMove(curPiece.rotateRight(), curX, curY);
+                 break;
+             case KeyEvent.VK_UP:
+                 tryMove(curPiece.rotateLeft(), curX, curY);
+                 break;
+             case KeyEvent.VK_SPACE:
+                 dropDown();
+                 break;
+             case 'd':
+                 oneLineDown();
+                 break;
+             case 'D':
+                 oneLineDown();
+                 break;
+             }
+
+         }
+     }
+
+}

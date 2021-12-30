@@ -44,7 +44,7 @@ public class Board extends JPanel implements ActionListener{
 
     int squareWidth() { return (int) getSize().getWidth() / BoardWidth; }
     int squareHeight() { return (int) getSize().getHeight() / BoardHeight; }
-    
+    Tetrominoes shapeAt(int x, int y) {return board[(y * BoardWidth) + x];}
 
     //Initiate game start and continue the game when it is paused
     public void start(){

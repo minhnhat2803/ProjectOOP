@@ -93,3 +93,49 @@ public class Board extends JPanel implements ActionListener{
     }
 
 }
+//Pieces' movement
+    private boolean tryMove(Shape newPiece, int newX, int newY){
+        for (int i = 0; i < 4; ++i) {
+            int x = newX + newPiece.x(i);
+            int y = newY - newPiece.y(i);
+            if (x < 0 || x >= BoardWidth || y < 0 || y >= BoardHeight)
+                return false;
+            if (shapeAt(x, y) != Tetrominoes.NoShape)
+                return false;
+        }
+        curPiece = newPiece;
+        curX = newX;
+        curY = newY;
+        repaint();
+        return true;
+    }
+    //Method to clear a line when all the pieces are puzzled together
+    private void removeFullLines(){
+        int numFullLines = 0;
+        for (int i = BoardHeight - 1; i >= 0; --i) {
+            boolean isFull = true;
+            for (int j = 0; j < BoardWidth; ++j) {
+                if (shapeAt(j, i) == Tetrominoes.NoShape) {
+                    isFull = false;
+                    break;
+                }
+            }
+            if (isFull) {
+                ++numFullLines;
+                for (int k = i; k < BoardHeight - 1; ++k) {
+                    for (int j = 0; j < BoardWidth; ++j)
+                         board[(k * BoardWidth) + j] = shapeAt(j, k + 1);
+                }
+                
+            }
+        }
+
+        if (numFullLines > 0) {
+            numLinesRemoved += numFullLines;
+            statusbar.setText("Score: "+ String.valueOf(numLinesRemoved*100));
+            Tetris.PlayClear();
+            FallingFinished = true;
+            curPiece.setShape(Tetrominoes.NoShape);
+            repaint();
+        }
+     }
